@@ -1,0 +1,70 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
+import { cn } from "../../lib/utils";
+import { CiLogin, CiPhone } from "react-icons/ci";
+
+const navigationItems = [
+  { label: "الرئيسية", href: "/" },
+  { label: "التخصصات", href: "/specialties" },
+  { label: "الأطباء", href: "/doctors" },
+  { label: "المستشفيات", href: "/hospitals" },
+];
+
+export const Header = () => {
+  const pathname = usePathname();
+
+  return (
+      <header className="w-full bg-white/80 backdrop-blur-sm border-b border-light-gray-200 sticky top-0 z-50 shadow-sm/50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <nav className="flex h-20 items-center justify-between" dir="rtl">
+            {/* Logo area could be added here if needed, pushing nav to center or left */}
+            
+            {/* Navigation Links */}
+            <div className="hidden md:flex items-center gap-8">
+              {navigationItems.map((item, index) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    className={cn(
+                      "font-medium text-lg transition-colors relative group py-2",
+                      isActive ? "text-primary" : "text-gray-600 hover:text-primary"
+                    )}
+                  >
+                    {item.label}
+                    <span 
+                      className={cn(
+                        "absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 rounded-full",
+                        isActive ? "w-full" : "w-0 group-hover:w-full"
+                      )}
+                    ></span>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Buttons Area */}
+            <div className="flex items-center gap-3 shrink-0">
+              <Button className="h-10 bg-primary hover:bg-primary/90 rounded-xl shadow-lg shadow-blue-100 transition-all gap-2 px-6">
+                <span className="font-medium text-sm text-white">
+                  تسجيل الدخول
+                </span>
+                <CiLogin className="w-4 h-4 text-white" />
+              </Button>
+
+              <Button variant="ghost" className="h-10 rounded-xl gap-2 hover:bg-gray-100/80 text-neutral-950">
+                <span className="font-medium text-sm">
+                  اتصل بنا
+                </span>
+                <CiPhone className="w-4 h-4" />
+              </Button>
+            </div>
+          </nav>
+        </div>
+      </header>
+  );
+};
