@@ -1,0 +1,43 @@
+export const STATIC_BECOME_CONTENT_QUERY = `
+*[_type == "staticBecomeContent"][0]{
+  _id,
+  _type,
+  pageTitle,
+  pageDescription,
+  heroImage{
+    asset->{
+      _id,
+      url,
+      metadata{
+        dimensions,
+        lqip
+      }
+    },
+    hotspot,
+    crop
+  },
+  companyTitle,
+  companyDescription,
+  companyButtonText,
+  supplierTitle,
+  supplierDescription,
+  supplierButtonText,
+  benefits[]{
+    title,
+    description,
+    icon{asset->{url}}
+  },
+  seo{
+    metaTitle,
+    metaDescription,
+    ogImage{
+      asset->{
+        _id,
+        url,
+        metadata{
+          dimensions
+        }
+      }
+    }
+  }
+}`;
