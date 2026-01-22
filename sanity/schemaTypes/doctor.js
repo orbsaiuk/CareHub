@@ -45,12 +45,6 @@ export default {
             rows: 4,
         },
         {
-            name: 'description',
-            title: 'الوصف التفصيلي',
-            type: 'array',
-            of: [{ type: 'block' }],
-        },
-        {
             name: 'image',
             title: 'صورة الطبيب',
             type: 'image',
@@ -71,33 +65,27 @@ export default {
             of: [
                 {
                     type: 'object',
+                    name: 'qualification',
                     fields: [
                         { name: 'degree', title: 'الدرجة', type: 'string' },
                         { name: 'institution', title: 'المؤسسة', type: 'string' },
                         { name: 'year', title: 'السنة', type: 'number' },
                     ],
+                    preview: {
+                        select: {
+                            degree: 'degree',
+                            institution: 'institution',
+                            year: 'year',
+                        },
+                        prepare({ degree, institution, year }) {
+                            return {
+                                title: degree || 'مؤهل',
+                                subtitle: `${institution || ''} ${year ? `- ${year}` : ''}`,
+                            };
+                        },
+                    },
                 },
             ],
-        },
-        {
-            name: 'certifications',
-            title: 'الشهادات',
-            type: 'array',
-            of: [{ type: 'string' }],
-        },
-        {
-            name: 'languages',
-            title: 'اللغات',
-            type: 'array',
-            of: [{ type: 'string' }],
-            options: {
-                list: [
-                    { title: 'العربية', value: 'ar' },
-                    { title: 'الإنجليزية', value: 'en' },
-                    { title: 'الفرنسية', value: 'fr' },
-                    { title: 'الألمانية', value: 'de' },
-                ],
-            },
         },
         {
             name: 'hospitals',
@@ -106,12 +94,14 @@ export default {
             of: [
                 {
                     type: 'object',
+                    name: 'hospitalAssignment',
                     fields: [
                         {
                             name: 'hospital',
                             title: 'المستشفى',
                             type: 'reference',
                             to: [{ type: 'hospital' }],
+                            validation: (Rule) => Rule.required(),
                         },
                         {
                             name: 'isPrimary',
@@ -120,6 +110,18 @@ export default {
                             initialValue: false,
                         },
                     ],
+                    preview: {
+                        select: {
+                            hospitalName: 'hospital.name',
+                            isPrimary: 'isPrimary',
+                        },
+                        prepare({ hospitalName, isPrimary }) {
+                            return {
+                                title: hospitalName || 'لم يتم اختيار مستشفى',
+                                subtitle: isPrimary ? '⭐ المستشفى الرئيسي' : 'مستشفى إضافي',
+                            };
+                        },
+                    },
                 },
             ],
         },
@@ -142,6 +144,7 @@ export default {
             of: [
                 {
                     type: 'object',
+                    name: 'availabilitySlot',
                     fields: [
                         {
                             name: 'day',
@@ -168,21 +171,31 @@ export default {
                             to: [{ type: 'hospital' }],
                         },
                     ],
+                    preview: {
+                        select: {
+                            day: 'day',
+                            startTime: 'startTime',
+                            endTime: 'endTime',
+                            hospitalName: 'hospital.name',
+                        },
+                        prepare({ day, startTime, endTime, hospitalName }) {
+                            const dayLabels = {
+                                sunday: 'الأحد',
+                                monday: 'الإثنين',
+                                tuesday: 'الثلاثاء',
+                                wednesday: 'الأربعاء',
+                                thursday: 'الخميس',
+                                friday: 'الجمعة',
+                                saturday: 'السبت',
+                            };
+                            return {
+                                title: `${dayLabels[day] || day}: ${startTime || ''} - ${endTime || ''}`,
+                                subtitle: hospitalName || 'لم يتم تحديد المستشفى',
+                            };
+                        },
+                    },
                 },
             ],
-        },
-        {
-            name: 'acceptsInsurance',
-            title: 'يقبل التأمين',
-            type: 'boolean',
-            initialValue: false,
-        },
-        {
-            name: 'insuranceProviders',
-            title: 'شركات التأمين المقبولة',
-            type: 'array',
-            of: [{ type: 'string' }],
-            hidden: ({ document }) => !document?.acceptsInsurance,
         },
         {
             name: 'rating',
@@ -219,12 +232,6 @@ export default {
             title: 'نشط',
             type: 'boolean',
             initialValue: true,
-        },
-        {
-            name: 'isVerified',
-            title: 'موثق',
-            type: 'boolean',
-            initialValue: false,
         },
         {
             name: 'isFeatured',

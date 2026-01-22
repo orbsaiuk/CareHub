@@ -1,57 +1,24 @@
 import { DoctorCard } from "../cards/DoctorCard";
+import { client } from "@/sanity/lib/client";
+import { getFeaturedDoctorsQuery } from "@/sanity/queries/doctors";
 
-const doctorCards = [
-  {
-    id: 1,
-    name: "د. أحمد محمود",
-    specialty: "طب القلب",
-    experienceYears: 15,
-    rating: 4.9,
-    reviewsCount: 234,
-    price: 350,
-    hospitalName: "مستشفى الملك فيصل التخصصي - الرياض",
-    isAvailable: true,
-    imageUrl: "/image-----------------3.png",
-  },
-  {
-    id: 2,
-    name: "د. خالد علي",
-    specialty: "طب الأسنان",
-    experienceYears: 12,
-    rating: 4.8,
-    reviewsCount: 150,
-    price: 250,
-    hospitalName: "عيادات الأسنان الحديثة - الرياض",
-    isAvailable: true,
-    imageUrl: "/image-----------------3.png",
-  },
-  {
-    id: 3,
-    name: "د. سارة محمد",
-    specialty: "طب الأطفال",
-    experienceYears: 10,
-    rating: 4.9,
-    reviewsCount: 300,
-    price: 200,
-    hospitalName: "مستشفى الأطفال التخصصي - جدة",
-    isAvailable: true,
-    imageUrl: "/image-----------------3.png",
-  },
-  {
-    id: 4,
-    name: "د. محمد حسن",
-    specialty: "طب العيون",
-    experienceYears: 18,
-    rating: 4.7,
-    reviewsCount: 120,
-    price: 300,
-    hospitalName: "مستشفى العيون - الدمام",
-    isAvailable: false,
-    imageUrl: "/image-----------------3.png",
-  },
-];
+async function getFeaturedDoctors() {
+  try {
+    const doctors = await client.fetch(getFeaturedDoctorsQuery, { limit: 4 });
+    return doctors || [];
+  } catch (error) {
+    console.error('Error fetching featured doctors:', error);
+    return [];
+  }
+}
 
-export const FeaturedDoctorsSection = () => {
+export const FeaturedDoctorsSection = async () => {
+  const doctors = await getFeaturedDoctors();
+
+  if (doctors.length === 0) {
+    return null;
+  }
+
   return (
     <section className="w-full py-20 bg-gray-50/30">
       <div className="container mx-auto px-4 max-w-7xl">
@@ -65,10 +32,19 @@ export const FeaturedDoctorsSection = () => {
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mx-auto">
-          {doctorCards.map((doctor) => (
+          {doctors.map((doctor) => (
             <DoctorCard
-              key={doctor.id}
-              {...doctor}
+              key={doctor._id}
+              slug={doctor.slug}
+              name={doctor.name}
+              specialty={doctor.specialty?.name}
+              rating={doctor.rating}
+              reviewsCount={doctor.reviewsCount}
+              experienceYears={doctor.experienceYears}
+              hospitals={doctor.hospitals}
+              consultationFee={doctor.consultationFee}
+              image={doctor.image}
+              isAvailable={doctor.isActive}
             />
           ))}
         </div>

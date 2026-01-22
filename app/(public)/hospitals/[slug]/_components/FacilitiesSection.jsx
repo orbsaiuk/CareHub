@@ -5,14 +5,7 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 
 export function FacilitiesSection({ facilities = [] }) {
-    const defaultFacilities = [
-        "عيادات خارجية متخصصة",
-        "وحدة أشعة رقمية",
-        "معمل تحاليل متقدم",
-        "استقبال 24 ساعة",
-    ];
-
-    const displayFacilities = facilities.length > 0 ? facilities : defaultFacilities;
+    if (!facilities || facilities.length === 0) return null;
 
     return (
         <Card className="border-1 border-r-4 border-r-primary">
@@ -20,7 +13,7 @@ export function FacilitiesSection({ facilities = [] }) {
                 <h2 className="text-xl font-bold mb-4 text-gray-900">المرافق والخدمات</h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {displayFacilities.map((facility, index) => (
+                    {facilities.map((facility, index) => (
                         <div
                             key={index}
                             className="flex items-center gap-3 p-3 rounded-lg"

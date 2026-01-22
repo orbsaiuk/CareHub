@@ -140,7 +140,6 @@ export async function getFilteredDoctors(filters = {}, page = 1, limit = 12) {
         hospitalId: filters.hospitalId || null,
         minFee: filters.minFee || null,
         maxFee: filters.maxFee || null,
-        acceptsInsurance: filters.acceptsInsurance || null,
         start,
         end,
     };

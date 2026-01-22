@@ -8,9 +8,7 @@ export const specialtyFields = groq`
   "slug": slug.current,
   nameEn,
   description,
-  icon,
-  image,
-  color,
+  "icon": icon.asset->url,
   "parentSpecialty": parentSpecialty->{
     _id,
     name,

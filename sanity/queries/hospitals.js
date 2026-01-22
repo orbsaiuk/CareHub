@@ -26,14 +26,9 @@ export const hospitalFields = groq`
   email,
   website,
   workingHours,
-  hasEmergency,
-  acceptsInsurance,
-  insuranceProviders,
-  accreditations,
   rating,
   reviewsCount,
   isActive,
-  isVerified,
   isFeatured,
   order
 `;
@@ -119,7 +114,7 @@ export const searchHospitalsQuery = groq`
 
 // Get hospitals with emergency services
 export const getEmergencyHospitalsQuery = groq`
-  *[_type == "hospital" && isActive == true && hasEmergency == true] | order(rating desc) [0...$limit] {
+  *[_type == "hospital" && isActive == true] | order(rating desc) [0...$limit] {
     ${hospitalFields}
   }
 `;
@@ -137,8 +132,6 @@ export const getFilteredHospitalsQuery = groq`
     ${`&& ($type == null || type == $type)`}
     ${`&& ($specialtyId == null || $specialtyId in specialties[]._ref)`}
     ${`&& ($city == null || address.city == $city)`}
-    ${`&& ($hasEmergency == null || hasEmergency == $hasEmergency)`}
-    ${`&& ($acceptsInsurance == null || acceptsInsurance == $acceptsInsurance)`}
   ] | order(isFeatured desc, rating desc, _createdAt desc) [$start...$end] {
     ${hospitalFields}
   }

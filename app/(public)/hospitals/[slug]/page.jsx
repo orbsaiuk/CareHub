@@ -1,99 +1,12 @@
 import { notFound } from "next/navigation";
+import { getHospitalBySlug } from "@/services/sanity/hospitals";
+import { urlFor } from "@/sanity/lib/image";
 import { HospitalHero, ContactCard, WorkingHoursSection, FacilitiesSection, DepartmentsSection, GallerySection, DoctorsSection, AboutSection } from "./_components";
-
-// Mock data for single hospital
-const getHospitalBySlug = (slug) => {
-    const hospitals = {
-        "hospital-0": {
-            _id: "hospital-0",
-            slug: "hospital-0",
-            name: "مستشفى الملك فيصل التخصصي",
-            type: "مستشفى حكومي",
-            rating: 4.5,
-            reviewsCount: 500,
-            address: {
-                city: "الرياض",
-                street: "طريق الملك فهد",
-                district: "العليا"
-            },
-            phone: "+966 11 442 7777",
-            emergencyPhone: "+966 11 442 7777",
-            description: "مستشفى الملك فيصل التخصصي ومركز الأبحاث هو مستشفى تخصصي رائد في المملكة العربية السعودية، يقدم أعلى مستويات الرعاية الصحية المتخصصة في مختلف المجالات الطبية.",
-            specialties: [
-                "جراحة القلب والأوعية الدموية",
-                "زراعة الأعضاء",
-                "الأورام",
-                "طب الأطفال",
-                "جراحة الأعصاب",
-                "أمراض الكلى"
-            ],
-            facilities: [
-                "غرف طوارئ",
-                "صيدلية",
-                "مواقف سيارات",
-                "مرافق لذوي الاحتياجات الخاصة"
-            ],
-            workingHours: {
-                weekdays: "24 ساعة",
-                weekend: "24 ساعة",
-                emergency: "متاح على مدار الساعة"
-            },
-            logo: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&auto=format&fit=crop&q=60",
-            images: [
-                "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&auto=format&fit=crop&q=60",
-                "https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?w=800&auto=format&fit=crop&q=60",
-                "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&auto=format&fit=crop&q=60"
-            ]
-        },
-        "hospital-1": {
-            _id: "hospital-1",
-            slug: "hospital-1",
-            name: "مستشفى دله",
-            type: "مستشفى خاص",
-            rating: 4.6,
-            reviewsCount: 600,
-            address: {
-                city: "الرياض",
-                street: "طريق الملك فهد",
-                district: "النخيل"
-            },
-            phone: "+966 11 275 5555",
-            emergencyPhone: "+966 11 275 5555",
-            description: "مستشفى دله هو أحد أكبر المستشفيات الخاصة في المملكة، يوفر خدمات طبية متكاملة بأحدث التقنيات والكوادر الطبية المتميزة.",
-            specialties: [
-                "طب الأسنان التجميلي",
-                "جراحة التجميل",
-                "طب العيون",
-                "العظام والمفاصل",
-                "الجلدية والتجميل",
-                "النساء والولادة"
-            ],
-            facilities: [
-                "غرف طوارئ",
-                "صيدلية",
-                "مواقف سيارات",
-                "مرافق لذوي الاحتياجات الخاصة"
-            ],
-            workingHours: {
-                weekdays: "24 ساعة",
-                weekend: "24 ساعة",
-                emergency: "متاح على مدار الساعة"
-            },
-            logo: "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&auto=format&fit=crop&q=60",
-            images: [
-                "https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=800&auto=format&fit=crop&q=60",
-                "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&auto=format&fit=crop&q=60",
-                "https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=800&auto=format&fit=crop&q=60"
-            ]
-        }
-    };
-
-    return hospitals[slug] || null;
-};
 
 export async function generateMetadata({ params }) {
     const { slug } = await params;
-    const hospital = getHospitalBySlug(slug);
+    const decodedSlug = decodeURIComponent(slug);
+    const hospital = await getHospitalBySlug(decodedSlug);
 
     if (!hospital) {
         return {
@@ -109,16 +22,30 @@ export async function generateMetadata({ params }) {
 
 export default async function HospitalDetailPage({ params }) {
     const { slug } = await params;
-    const hospital = getHospitalBySlug(slug);
+    const decodedSlug = decodeURIComponent(slug);
+    const hospital = await getHospitalBySlug(decodedSlug);
 
     if (!hospital) {
         notFound();
     }
 
+    // Transform data to match component expectations
+    const transformedHospital = {
+        ...hospital,
+        logo: hospital.logo ? urlFor(hospital.logo).url() : "/rectangle-1.svg",
+        images: hospital.images?.map(img => urlFor(img).url()) || [],
+        // Keep specialties as objects with name property for DepartmentsSection
+        departments: hospital.specialties || [],
+        // Transform facilities to ensure they have name property
+        facilities: hospital.facilities?.map(f =>
+            typeof f === 'string' ? { name: f } : f
+        ) || [],
+    };
+
     return (
         <div className="bg-gray-50/50 min-h-screen" dir="rtl">
             {/* Hero Section */}
-            <HospitalHero hospital={hospital} />
+            <HospitalHero hospital={transformedHospital} />
 
             {/* Main Content */}
             <div className="container mx-auto py-8">
@@ -126,17 +53,17 @@ export default async function HospitalDetailPage({ params }) {
                     {/* Left Column - Main Content */}
                     <div className="lg:col-span-2 space-y-6">
                         <AboutSection description={hospital.description} />
-                        <DepartmentsSection departments={hospital.specialties} />
-                        <FacilitiesSection facilities={hospital.facilities} />
+                        <DepartmentsSection departments={transformedHospital.departments} />
+                        <FacilitiesSection facilities={transformedHospital.facilities} />
                         <WorkingHoursSection workingHours={hospital.workingHours} />
-                        <DoctorsSection />
-                        <GallerySection images={hospital.images} />
+                        <DoctorsSection doctors={hospital.doctors} />
+                        <GallerySection images={transformedHospital.images} />
                     </div>
 
                     {/* Right Column - Sidebar */}
                     <div className="lg:col-span-1">
                         <div className="sticky top-24 space-y-6">
-                            <ContactCard hospital={hospital} />
+                            <ContactCard hospital={transformedHospital} />
                         </div>
                     </div>
                 </div>

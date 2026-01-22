@@ -19,8 +19,6 @@ export const doctorFields = groq`
   image,
   experienceYears,
   qualifications,
-  certifications,
-  languages,
   "hospitals": hospitals[]{
     "hospital": hospital->{
       _id,
@@ -36,14 +34,11 @@ export const doctorFields = groq`
   consultationFee,
   followUpFee,
   availability,
-  acceptsInsurance,
-  insuranceProviders,
   rating,
   reviewsCount,
   phone,
   email,
   isActive,
-  isVerified,
   isFeatured,
   order
 `;
@@ -129,7 +124,6 @@ export const getFilteredDoctorsQuery = groq`
     ${`&& ($hospitalId == null || $hospitalId in hospitals[].hospital._ref)`}
     ${`&& ($minFee == null || consultationFee >= $minFee)`}
     ${`&& ($maxFee == null || consultationFee <= $maxFee)`}
-    ${`&& ($acceptsInsurance == null || acceptsInsurance == $acceptsInsurance)`}
   ] | order(isFeatured desc, rating desc, _createdAt desc) [$start...$end] {
     ${doctorFields}
   }

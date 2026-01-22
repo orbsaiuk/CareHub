@@ -22,7 +22,6 @@ export async function GET(request) {
         const hospitalId = searchParams.get('hospitalId');
         const minFee = searchParams.get('minFee') ? parseInt(searchParams.get('minFee')) : null;
         const maxFee = searchParams.get('maxFee') ? parseInt(searchParams.get('maxFee')) : null;
-        const acceptsInsurance = searchParams.get('acceptsInsurance') === 'true' ? true : null;
 
         let result;
 
@@ -38,9 +37,9 @@ export async function GET(request) {
             };
         }
         // Filtered query
-        else if (specialtyId || hospitalId || minFee || maxFee || acceptsInsurance !== null) {
+        else if (specialtyId || hospitalId || minFee || maxFee) {
             const doctors = await getFilteredDoctors(
-                { specialtyId, hospitalId, minFee, maxFee, acceptsInsurance },
+                { specialtyId, hospitalId, minFee, maxFee },
                 page,
                 limit
             );

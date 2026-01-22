@@ -5,27 +5,36 @@ import Link from "next/link";
 import { FaStar, FaMapMarkerAlt, FaRegCalendarAlt } from "react-icons/fa";
 import { PiSuitcaseSimple } from "react-icons/pi";
 import { LuFileText } from "react-icons/lu";
+import { urlFor } from "@/sanity/lib/image";
 
 import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
-import { Badge } from "../ui/badge";
 
 export function DoctorCard({
   slug,
-  name = "د. أحمد محمود",
-  specialty = "طب القلب",
-  rating = 4.9,
-  reviewsCount = 234,
-  experienceYears = 15,
-  hospitalName = "مستشفى الملك فيصل التخصصي - الرياض",
-  location = "الرياض",
-  price = 350,
-  imageUrl = "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&auto=format&fit=crop&q=60",
+  name,
+  specialty,
+  rating = 0,
+  reviewsCount = 0,
+  experienceYears,
+  hospitals = [],
+  consultationFee,
+  image,
   isAvailable = true,
   className,
   ...props
 }) {
+  // Get primary hospital or first hospital with valid data
+  const primaryHospital = hospitals?.find(h => h.isPrimary && h.hospital)?.hospital ||
+    hospitals?.find(h => h.hospital)?.hospital;
+
+  const hospitalName = primaryHospital?.name || "غير محدد";
+  const location = primaryHospital?.address || "";
+
+  // Generate image URL from Sanity
+  const imageUrl = image ? urlFor(image).width(400).height(400).url() : "/image-----------------3.png";
+
   return (
     <Card
       className={cn(
@@ -44,6 +53,7 @@ export function DoctorCard({
                 alt={name}
                 fill
                 className="object-cover"
+                sizes="(max-width: 640px) 96px, 112px"
               />
             </div>
           </div>
@@ -57,31 +67,41 @@ export function DoctorCard({
 
             {/* Rating and Experience Row */}
             <div className="flex flex-wrap items-center gap-3 text-sm">
-              <div className="flex items-center gap-1 bg-yellow-50 text-yellow-700 px-2 py-1 rounded-sm border border-yellow-100">
-                <span className="font-bold">{rating}</span>
-                <FaStar className="text-yellow-400 w-3 h-3" />
-                <span className="text-muted-foreground mr-1">({reviewsCount})</span>
-              </div>
+              {rating > 0 && (
+                <div className="flex items-center gap-1 bg-yellow-50 text-yellow-700 px-2 py-1 rounded-sm border border-yellow-100">
+                  <span className="font-bold">{rating.toFixed(1)}</span>
+                  <FaStar className="text-yellow-400 w-3 h-3" />
+                  <span className="text-muted-foreground mr-1">({reviewsCount})</span>
+                </div>
+              )}
 
-              <div className="flex items-center gap-1 text-muted-foreground bg-gray-50 px-2 py-1 rounded-sm border">
-                <PiSuitcaseSimple className="w-3 h-3" />
-                <span>{experienceYears} سنة خبرة</span>
-              </div>
+              {experienceYears > 0 && (
+                <div className="flex items-center gap-1 text-muted-foreground bg-gray-50 px-2 py-1 rounded-sm border">
+                  <PiSuitcaseSimple className="w-3 h-3" />
+                  <span>{experienceYears} سنة خبرة</span>
+                </div>
+              )}
             </div>
 
             {/* Location / Hospital */}
-            <div className="flex items-start gap-1.5 text-sm text-muted-foreground bg-gray-50 p-2 rounded-md border border-gray-100">
-              <FaMapMarkerAlt className="w-3 h-3 mt-0.5 text-gray-400 shrink-0" />
-              <span className="leading-tight">{hospitalName}</span>
-            </div>
+            {(hospitalName !== "غير محدد" || location) && (
+              <div className="flex items-start gap-1.5 text-sm text-muted-foreground bg-gray-50 p-2 rounded-md border border-gray-100">
+                <FaMapMarkerAlt className="w-3 h-3 mt-0.5 text-gray-400 shrink-0" />
+                <span className="leading-tight">
+                  {hospitalName}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Price Section */}
-        <div className="mt-4 flex items-center justify-center gap-1 border-t border-dashed pt-3 px-2">
-          <span className="text-muted-foreground">سعر الكشف:</span>
-          <span className="font-bold text-blue-600 text-lg">{price} ريال</span>
-        </div>
+        {consultationFee && (
+          <div className="mt-4 flex items-center justify-center gap-1 border-t border-dashed pt-3 px-2">
+            <span className="text-muted-foreground">سعر الكشف:</span>
+            <span className="font-bold text-blue-600 text-lg">{consultationFee} ريال</span>
+          </div>
+        )}
       </CardContent>
 
       <CardFooter className="p-4 pt-0 gap-3 grid grid-cols-2">

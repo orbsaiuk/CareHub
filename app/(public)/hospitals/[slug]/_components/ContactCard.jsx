@@ -12,29 +12,53 @@ export function ContactCard({ hospital }) {
 
                 <div className="space-y-4 mb-6">
                     {/* Phone */}
-                    <div className="flex items-start gap-3">
-                        <FaPhone className="w-4 h-4 text-primary mt-1" />
-                        <div className="flex-1">
-                            <p className="text-sm text-gray-500 mb-1">رقم الهاتف</p>
-                            <a
-                                href={`tel:${hospital.phone}`}
-                                className="text-gray-900 font-medium hover:text-primary transition-colors"
-                            >
-                                {hospital.phone || "+966 50 234 5678"}
-                            </a>
+                    {hospital.phone && (
+                        <div className="flex items-start gap-3">
+                            <FaPhone className="w-4 h-4 text-primary mt-1" />
+                            <div className="flex-1">
+                                <p className="text-sm text-gray-500 mb-1">رقم الهاتف</p>
+                                <a
+                                    href={`tel:${hospital.phone}`}
+                                    className="text-gray-900 font-medium hover:text-primary transition-colors"
+                                >
+                                    {hospital.phone}
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    )}
+
+                    {/* Emergency Phone */}
+                    {hospital.emergencyPhone && (
+                        <div className="flex items-start gap-3">
+                            <FaPhone className="w-4 h-4 text-red-500 mt-1" />
+                            <div className="flex-1">
+                                <p className="text-sm text-gray-500 mb-1">رقم الطوارئ</p>
+                                <a
+                                    href={`tel:${hospital.emergencyPhone}`}
+                                    className="text-gray-900 font-medium hover:text-red-500 transition-colors"
+                                >
+                                    {hospital.emergencyPhone}
+                                </a>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Address */}
-                    <div className="flex items-start gap-3">
-                        <FaMapMarkerAlt className="w-4 h-4 text-primary mt-1" />
-                        <div className="flex-1">
-                            <p className="text-sm text-gray-500 mb-1">عنوان 102</p>
-                            <p className="text-gray-900 font-medium">
-                                شارع الملك فهد، الرياض، عنوان 102
-                            </p>
+                    {hospital.address && (
+                        <div className="flex items-start gap-3">
+                            <FaMapMarkerAlt className="w-4 h-4 text-primary mt-1" />
+                            <div className="flex-1">
+                                <p className="text-sm text-gray-500 mb-1">العنوان</p>
+                                <p className="text-gray-900 font-medium">
+                                    {[
+                                        hospital.address.street,
+                                        hospital.address.district,
+                                        hospital.address.city
+                                    ].filter(Boolean).join('، ')}
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
 
                 {/* Buttons */}

@@ -5,30 +5,22 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
+import { urlFor } from "@/sanity/lib/image";
 
 export function DoctorsSection({ doctors = [] }) {
-    const defaultDoctors = [
-        {
-            id: 1,
-            name: "د. أحمد محمود",
-            specialty: "طب القلب",
-            rating: 4.8,
-            experience: "15 سنة خبرة",
-            image: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&auto=format&fit=crop&q=60",
-            available: true
-        },
-        {
-            id: 2,
-            name: "د. أحمد محمود",
-            specialty: "طب القلب",
-            rating: 4.8,
-            experience: "15 سنة خبرة",
-            image: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=400&auto=format&fit=crop&q=60",
-            available: true
-        }
-    ];
+    // Transform Sanity doctors to match component structure
+    const transformedDoctors = doctors?.map(doctor => ({
+        id: doctor._id,
+        name: doctor.name,
+        specialty: doctor.specialty?.name || doctor.title,
+        rating: doctor.rating || 0,
+        experience: doctor.experienceYears ? `${doctor.experienceYears} سنة خبرة` : '',
+        image: doctor.image ? urlFor(doctor.image).width(200).height(200).url() : '/rectangle-1.svg',
+        available: true,
+        slug: doctor.slug
+    })) || [];
 
-    const displayDoctors = doctors.length > 0 ? doctors : defaultDoctors;
+    if (!transformedDoctors || transformedDoctors.length === 0) return null;
 
     return (
         <Card className="border-1 shadow-md border-r-4 border-r-primary">
@@ -41,7 +33,7 @@ export function DoctorsSection({ doctors = [] }) {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {displayDoctors.map((doctor) => (
+                    {transformedDoctors.map((doctor) => (
                         <div
                             key={doctor.id}
                             className="flex gap-4 p-4 bg-white border-2 border-gray-100 rounded-lg"
@@ -67,11 +59,15 @@ export function DoctorsSection({ doctors = [] }) {
                                 <p className="text-sm text-gray-600 mb-2">{doctor.specialty}</p>
 
                                 <div className="flex items-center gap-2 mb-2">
-                                    <div className="flex items-center gap-1">
-                                        <FaStar className="w-3 h-3 text-yellow-400" />
-                                        <span className="text-sm font-medium text-gray-900">{doctor.rating}</span>
-                                    </div>
-                                    <span className="text-xs text-gray-500">{doctor.experience}</span>
+                                    {doctor.rating > 0 && (
+                                        <div className="flex items-center gap-1">
+                                            <FaStar className="w-3 h-3 text-yellow-400" />
+                                            <span className="text-sm font-medium text-gray-900">{doctor.rating}</span>
+                                        </div>
+                                    )}
+                                    {doctor.experience && (
+                                        <span className="text-xs text-gray-500">{doctor.experience}</span>
+                                    )}
                                 </div>
 
                                 <Button size="sm" className="w-full bg-primary hover:bg-primary/80 text-sm">

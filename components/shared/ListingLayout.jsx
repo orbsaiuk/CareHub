@@ -5,7 +5,7 @@ import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Search, MapPin, ChevronDown } from "lucide-react";
-import { Pagination } from "./Pagination";
+import { PaginationWrapper } from "./PaginationWrapper";
 
 export function ListingLayout({
     title,
@@ -17,21 +17,10 @@ export function ListingLayout({
     className,
     currentPage,
     totalPages,
-    onPageChange,
-    showPagination = true
+    showPagination = true,
+    showFeatureBadges = false
 }) {
     const contentRef = useRef(null);
-
-    const handlePageChange = (page) => {
-        // Always scroll to content section, even if page doesn't change
-        if (contentRef.current) {
-            const yOffset = -20; // 20px offset from top
-            const y = contentRef.current.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({ top: y, behavior: 'smooth' });
-        }
-        // Update page state
-        onPageChange?.(page);
-    };
 
     return (
         <div className="min-h-screen bg-gray-50/50 pb-20 font-sans" dir="rtl">
@@ -89,30 +78,32 @@ export function ListingLayout({
 
             {/* Content Section */}
             <main ref={contentRef} className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-                {/* Feature Badges */}
-                <div className="flex flex-wrap justify-center gap-6 mb-12">
-                    <div className="flex flex-col items-center text-center space-y-2 max-w-[200px]">
-                        <div className="w-12 h-12 rounded-full bg-cyan-400 flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                            1
+                {/* Feature Badges - Only show if enabled */}
+                {showFeatureBadges && (
+                    <div className="flex flex-wrap justify-center gap-6 mb-12">
+                        <div className="flex flex-col items-center text-center space-y-2 max-w-[200px]">
+                            <div className="w-12 h-12 rounded-full bg-cyan-400 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                1
+                            </div>
+                            <h4 className="font-bold text-gray-900">نوع الطبيب</h4>
+                            <p className="text-sm text-gray-500">اختر من بين الأطباء العامين والمتخصصين</p>
                         </div>
-                        <h4 className="font-bold text-gray-900">نوع الطبيب</h4>
-                        <p className="text-sm text-gray-500">اختر من بين الأطباء العامين والمتخصصين</p>
-                    </div>
-                    <div className="flex flex-col items-center text-center space-y-2 max-w-[200px]">
-                        <div className="w-12 h-12 rounded-full bg-cyan-400 flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                            2
+                        <div className="flex flex-col items-center text-center space-y-2 max-w-[200px]">
+                            <div className="w-12 h-12 rounded-full bg-cyan-400 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                2
+                            </div>
+                            <h4 className="font-bold text-gray-900">قيم الطبيب</h4>
+                            <p className="text-sm text-gray-500">قيمون تجاربك مع الأطباء</p>
                         </div>
-                        <h4 className="font-bold text-gray-900">قيم الطبيب</h4>
-                        <p className="text-sm text-gray-500">قيمون تجاربك مع الأطباء</p>
-                    </div>
-                    <div className="flex flex-col items-center text-center space-y-2 max-w-[200px]">
-                        <div className="w-12 h-12 rounded-full bg-cyan-400 flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                            3
+                        <div className="flex flex-col items-center text-center space-y-2 max-w-[200px]">
+                            <div className="w-12 h-12 rounded-full bg-cyan-400 flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                                3
+                            </div>
+                            <h4 className="font-bold text-gray-900">احجز على الاستشارة</h4>
+                            <p className="text-sm text-gray-500">النظام الطبي المتقدم والاستشاري</p>
                         </div>
-                        <h4 className="font-bold text-gray-900">احجز على الاستشارة</h4>
-                        <p className="text-sm text-gray-500">النظام الطبي المتقدم والاستشاري</p>
                     </div>
-                </div>
+                )}
 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                     <div className="space-y-2">
@@ -129,16 +120,15 @@ export function ListingLayout({
                 </div>
 
                 {/* Grid Content */}
-                <div className={cn("space-y-6", className)}>
+                <div className={cn("grid gap-6", className)}>
                     {children}
                 </div>
 
                 {/* Pagination */}
-                {showPagination && (
-                    <Pagination
+                {showPagination && totalPages > 1 && (
+                    <PaginationWrapper
                         currentPage={currentPage}
                         totalPages={totalPages}
-                        onPageChange={handlePageChange}
                     />
                 )}
             </main>

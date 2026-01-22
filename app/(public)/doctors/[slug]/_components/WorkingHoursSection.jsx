@@ -1,18 +1,18 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function WorkingHoursSection({ workingHours }) {
+export default function WorkingHoursSection({ availability }) {
     const daysOfWeek = [
-        { ar: "السبت", en: "Saturday" },
-        { ar: "الأحد", en: "Sunday" },
-        { ar: "الإثنين", en: "Monday" },
-        { ar: "الثلاثاء", en: "Tuesday" },
-        { ar: "الأربعاء", en: "Wednesday" },
-        { ar: "الخميس", en: "Thursday" },
-        { ar: "الجمعة", en: "Friday" }
+        { ar: "السبت", en: "saturday" },
+        { ar: "الأحد", en: "sunday" },
+        { ar: "الإثنين", en: "monday" },
+        { ar: "الثلاثاء", en: "tuesday" },
+        { ar: "الأربعاء", en: "wednesday" },
+        { ar: "الخميس", en: "thursday" },
+        { ar: "الجمعة", en: "friday" }
     ];
 
-    const getScheduleForDay = (dayAr) => {
-        return workingHours?.find(wh => wh.day === dayAr);
+    const getScheduleForDay = (dayEn) => {
+        return availability?.find(slot => slot.day === dayEn);
     };
 
     return (
@@ -22,7 +22,7 @@ export default function WorkingHoursSection({ workingHours }) {
 
                 <div className="grid grid-cols-2 gap-3">
                     {daysOfWeek.map((day, index) => {
-                        const schedule = getScheduleForDay(day.ar);
+                        const schedule = getScheduleForDay(day.en);
                         const isOff = !schedule;
 
                         return (
@@ -36,7 +36,7 @@ export default function WorkingHoursSection({ workingHours }) {
                                     <div className="text-red-600 font-medium">عطلة</div>
                                 ) : (
                                     <div className="text-gray-600">
-                                        {schedule.hours}
+                                        {schedule.startTime} - {schedule.endTime}
                                     </div>
                                 )}
                             </div>

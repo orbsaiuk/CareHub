@@ -1,3 +1,5 @@
+"use client";
+
 export function FeatureBadges() {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 justify-center gap-6 mb-12 max-w-5xl mx-auto">

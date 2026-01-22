@@ -2,16 +2,27 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 
-export function WorkingHoursSection({ workingHours = {} }) {
-    const schedule = [
-        { day: "السبت", from: "10:00 ص", to: "6:00 م", status: "open" },
-        { day: "الأحد", from: "10:00 ص", to: "6:00 م", status: "open" },
-        { day: "الاثنين", from: "10:00 ص", to: "6:00 م", status: "open" },
-        { day: "الثلاثاء", from: "10:00 ص", to: "6:00 م", status: "open" },
-        { day: "الأربعاء", from: "10:00 ص", to: "6:00 م", status: "open" },
-        { day: "الخميس", from: "", to: "", status: "closed" },
-        { day: "الجمعة", from: "", to: "", status: "closed" },
-    ];
+export function WorkingHoursSection({ workingHours = [] }) {
+    const dayLabels = {
+        sunday: "الأحد",
+        monday: "الإثنين",
+        tuesday: "الثلاثاء",
+        wednesday: "الأربعاء",
+        thursday: "الخميس",
+        friday: "الجمعة",
+        saturday: "السبت",
+    };
+
+    if (!workingHours || workingHours.length === 0) return null;
+
+    // Transform Sanity working hours to component format
+    const schedule = workingHours.map(wh => ({
+        day: dayLabels[wh.day] || wh.day,
+        from: wh.is24Hours ? "24 ساعة" : wh.openTime || "",
+        to: wh.is24Hours ? "" : wh.closeTime || "",
+        status: wh.isOpen ? "open" : "closed",
+        is24Hours: wh.is24Hours
+    }));
 
     return (
         <Card className="border-1 border-r-4 border-r-primary">
@@ -30,7 +41,7 @@ export function WorkingHoursSection({ workingHours = {} }) {
                             <div className="font-bold text-gray-900 mb-1">{item.day}</div>
                             {item.status === "open" ? (
                                 <div className="text-gray-600">
-                                    {item.from} - {item.to}
+                                    {item.is24Hours ? "24 ساعة" : `${item.from} - ${item.to}`}
                                 </div>
                             ) : (
                                 <div className="text-red-600 font-medium">مغلق</div>

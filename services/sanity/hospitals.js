@@ -1,4 +1,4 @@
-import { client } from '@/sanity/lib/serverClient';
+import { writeClient as client } from '@/sanity/lib/serverClient';
 import {
     getHospitalsQuery,
     getHospitalsCountQuery,
@@ -125,8 +125,6 @@ export async function getFilteredHospitals(filters = {}, page = 1, limit = 12) {
         type: filters.type || null,
         specialtyId: filters.specialtyId || null,
         city: filters.city || null,
-        hasEmergency: filters.hasEmergency || null,
-        acceptsInsurance: filters.acceptsInsurance || null,
         start,
         end,
     };

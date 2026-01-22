@@ -1,10 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Card, CardContent } from "../ui/card";
 
 export function SpecialtyCard({
   name,
   slug,
-  icon: Icon,
+  icon,
   doctorCount,
   ...props
 }) {
@@ -15,8 +16,17 @@ export function SpecialtyCard({
         {...props}
       >
         <CardContent className="flex flex-col items-center p-8">
-          <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 bg-linear-bg text-white [&_svg]:stroke-current [&_svg]:fill-none [&_svg]:stroke-2">
-            {Icon && <Icon className="w-10 h-10" />}
+          <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 bg-linear-bg">
+            {icon && (
+              <div className="relative w-14 h-14">
+                <Image
+                  src={icon}
+                  alt={name}
+                  fill
+                  className="object-contain brightness-0 invert"
+                />
+              </div>
+            )}
           </div>
 
           <h3 className="font-bold text-neutral-950 text-xl text-center mb-2">

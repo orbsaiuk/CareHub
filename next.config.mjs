@@ -8,7 +8,23 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: '',
+        pathname: '/**',
+      },
     ],
+  },
+  webpack: (config, { isServer }) => {
+    // Optimize webpack cache for large strings
+    if (!isServer) {
+      config.optimization = {
+        ...config.optimization,
+        moduleIds: 'deterministic',
+      };
+    }
+    return config;
   },
 };
 

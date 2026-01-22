@@ -3,8 +3,13 @@ import { FaStar, FaMapMarkerAlt, FaLinkedin, FaTwitter, FaInstagram, FaFacebook 
 import { PiSuitcaseSimple } from "react-icons/pi";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
+import { urlFor } from "@/sanity/lib/image";
 
 export default function DoctorHero({ doctor }) {
+    const imageUrl = doctor.image
+        ? urlFor(doctor.image).width(400).height(400).url()
+        : "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=400&auto=format&fit=crop&q=60";
+
     return (
         <Card className="shadow-md overflow-hidden border-r-4 border-r-primary">
             <div className="p-6 md:p-8">
@@ -12,7 +17,7 @@ export default function DoctorHero({ doctor }) {
                     {/* Doctor Image */}
                     <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-2xl overflow-hidden flex-shrink-0 ml-auto shadow-md">
                         <Image
-                            src={doctor.image}
+                            src={imageUrl}
                             alt={doctor.name}
                             fill
                             className="object-cover"
@@ -26,7 +31,7 @@ export default function DoctorHero({ doctor }) {
                         </h1>
 
                         <p className="text-lg text-primary font-semibold mb-3">
-                            {doctor.specialty}
+                            {doctor.specialty?.name || doctor.specialty}
                         </p>
 
 
@@ -49,7 +54,7 @@ export default function DoctorHero({ doctor }) {
                             <div className="w-fit flex items-start gap-1.5 text-sm text-blue-500 bg-blue-50 p-2 rounded-md mb-4">
                                 <FaMapMarkerAlt className="w-3 h-3 mt-0.5 text-blue-500 shrink-0" />
                                 <span className="leading-tight">
-                                    {doctor.hospitals[0].hospital.name} - {doctor.hospitals[0].hospital.address.city}
+                                    {doctor.hospitals[0].hospital.name}
                                 </span>
                             </div>
                         )}

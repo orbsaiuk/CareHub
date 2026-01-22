@@ -33,22 +33,13 @@ export default {
         {
             name: 'icon',
             title: 'الأيقونة',
-            type: 'string',
-            description: 'اسم الأيقونة من React Icons (مثل: FaHeart)',
-        },
-        {
-            name: 'image',
-            title: 'الصورة',
             type: 'image',
+            description: 'أيقونة التخصص (SVG بلون أبيض)',
             options: {
                 hotspot: true,
+                accept: 'image/svg+xml',
             },
-        },
-        {
-            name: 'color',
-            title: 'اللون',
-            type: 'string',
-            description: 'كود اللون (مثل: #3B82F6)',
+            validation: (Rule) => Rule.required(),
         },
         {
             name: 'parentSpecialty',
@@ -88,7 +79,7 @@ export default {
         select: {
             title: 'name',
             subtitle: 'nameEn',
-            media: 'image',
+            media: 'icon',
             isActive: 'isActive',
         },
         prepare({ title, subtitle, media, isActive }) {

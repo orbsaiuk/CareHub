@@ -79,10 +79,23 @@ export default {
             of: [
                 {
                     type: 'object',
+                    name: 'facility',
                     fields: [
                         { name: 'name', title: 'الاسم', type: 'string' },
                         { name: 'icon', title: 'الأيقونة', type: 'string' },
                     ],
+                    preview: {
+                        select: {
+                            name: 'name',
+                            icon: 'icon',
+                        },
+                        prepare({ name, icon }) {
+                            return {
+                                title: name || 'مرفق',
+                                subtitle: icon || '',
+                            };
+                        },
+                    },
                 },
             ],
         },
@@ -135,6 +148,7 @@ export default {
             of: [
                 {
                     type: 'object',
+                    name: 'workingHour',
                     fields: [
                         {
                             name: 'day',
@@ -157,40 +171,40 @@ export default {
                         { name: 'closeTime', title: 'وقت الإغلاق', type: 'string' },
                         { name: 'is24Hours', title: '24 ساعة', type: 'boolean', initialValue: false },
                     ],
-                },
-            ],
-        },
-        {
-            name: 'hasEmergency',
-            title: 'يوجد قسم طوارئ',
-            type: 'boolean',
-            initialValue: false,
-        },
-        {
-            name: 'acceptsInsurance',
-            title: 'يقبل التأمين',
-            type: 'boolean',
-            initialValue: false,
-        },
-        {
-            name: 'insuranceProviders',
-            title: 'شركات التأمين المقبولة',
-            type: 'array',
-            of: [{ type: 'string' }],
-            hidden: ({ document }) => !document?.acceptsInsurance,
-        },
-        {
-            name: 'accreditations',
-            title: 'الاعتمادات',
-            type: 'array',
-            of: [
-                {
-                    type: 'object',
-                    fields: [
-                        { name: 'name', title: 'الاسم', type: 'string' },
-                        { name: 'year', title: 'السنة', type: 'number' },
-                        { name: 'logo', title: 'الشعار', type: 'image' },
-                    ],
+                    preview: {
+                        select: {
+                            day: 'day',
+                            isOpen: 'isOpen',
+                            openTime: 'openTime',
+                            closeTime: 'closeTime',
+                            is24Hours: 'is24Hours',
+                        },
+                        prepare({ day, isOpen, openTime, closeTime, is24Hours }) {
+                            const dayLabels = {
+                                sunday: 'الأحد',
+                                monday: 'الإثنين',
+                                tuesday: 'الثلاثاء',
+                                wednesday: 'الأربعاء',
+                                thursday: 'الخميس',
+                                friday: 'الجمعة',
+                                saturday: 'السبت',
+                            };
+
+                            let subtitle = '';
+                            if (!isOpen) {
+                                subtitle = 'مغلق';
+                            } else if (is24Hours) {
+                                subtitle = '24 ساعة';
+                            } else {
+                                subtitle = `${openTime || ''} - ${closeTime || ''}`;
+                            }
+
+                            return {
+                                title: dayLabels[day] || day,
+                                subtitle,
+                            };
+                        },
+                    },
                 },
             ],
         },
@@ -219,12 +233,6 @@ export default {
             title: 'نشط',
             type: 'boolean',
             initialValue: true,
-        },
-        {
-            name: 'isVerified',
-            title: 'موثق',
-            type: 'boolean',
-            initialValue: false,
         },
         {
             name: 'isFeatured',

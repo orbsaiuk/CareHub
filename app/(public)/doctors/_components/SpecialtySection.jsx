@@ -1,3 +1,6 @@
+"use client";
+
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { DoctorCard } from "@/components/cards/DoctorCard";
 
@@ -8,7 +11,16 @@ export function SpecialtySection({ specialty }) {
             <div className="flex justify-between items-center mb-6">
                 <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-md bg-linear-bg flex items-center justify-center">
-                        <specialty.icon className="w-6 h-6 text-white" />
+                        {specialty.icon && (
+                            <div className="relative w-8 h-8">
+                                <Image
+                                    src={specialty.icon}
+                                    alt={specialty.name}
+                                    fill
+                                    className="object-contain brightness-0 invert"
+                                />
+                            </div>
+                        )}
                     </div>
                     <div>
                         <h2 className="text-2xl font-bold text-gray-900">{specialty.name}</h2>
@@ -30,10 +42,10 @@ export function SpecialtySection({ specialty }) {
                         specialty={doctor.specialty}
                         rating={doctor.rating}
                         reviewsCount={doctor.reviewsCount}
-                        price={doctor.consultationFee}
-                        location={doctor.location}
-                        hospitalName={doctor.hospitals[0]?.hospital?.name}
-                        imageUrl={doctor.image}
+                        consultationFee={doctor.consultationFee}
+                        experienceYears={doctor.experienceYears}
+                        hospitals={doctor.hospitals}
+                        image={doctor.image}
                         isAvailable={doctor.isAvailable}
                     />
                 ))}

@@ -174,6 +174,7 @@ export default {
             of: [
                 {
                     type: 'object',
+                    name: 'medication',
                     fields: [
                         { name: 'medication', title: 'الدواء', type: 'string' },
                         { name: 'dosage', title: 'الجرعة', type: 'string' },
