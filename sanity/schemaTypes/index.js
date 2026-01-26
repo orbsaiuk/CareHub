@@ -1,6 +1,6 @@
 // Health schemas
 import doctor from "./doctor";
-import hospital from "./hospital";
+import facility from "./facility";
 import specialty from "./specialty";
 import appointment from "./appointment";
 import promotionalBanner from "./promotionalBanner";
@@ -9,7 +9,7 @@ export const schema = {
   types: [
     // Health schemas
     doctor,
-    hospital,
+    facility,
     specialty,
     appointment,
     promotionalBanner,

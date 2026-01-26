@@ -23,7 +23,7 @@ export function UserButton() {
             </SignedIn>
             <SignedOut>
                 <SignInButton mode="modal">
-                    <Button size="sm" className="bg-primary text-white">
+                    <Button className="bg-primary text-white">
                         تسجيل الدخول
                     </Button>
                 </SignInButton>

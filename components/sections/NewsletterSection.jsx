@@ -5,7 +5,7 @@ import { FaHospital, FaUserMd, FaUsers, FaCheck } from "react-icons/fa";
 const cardsData = [
   {
     icon: FaHospital,
-    title: "للمستشفيات والعيادات",
+    title: "للمنشآت الطبية",
     description: "أضف منشأتك الصحية وتواصل مع آلاف المرضى الباحثين عن خدماتك",
     features: [
       "صفحة تعريفية شاملة",
@@ -13,7 +13,7 @@ const cardsData = [
       "نظام حجز متكامل",
       "إحصائيات وتحليلات",
     ],
-    buttonText: "سجل منشاتك",
+    buttonText: "سجل منشأتك",
     hasButton: true,
   },
   {

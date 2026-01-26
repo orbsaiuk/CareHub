@@ -41,8 +41,7 @@ export const FeaturedDoctorsSection = async () => {
               rating={doctor.rating}
               reviewsCount={doctor.reviewsCount}
               experienceYears={doctor.experienceYears}
-              hospitals={doctor.hospitals}
-              consultationFee={doctor.consultationFee}
+              facilities={doctor.facilities}
               image={doctor.image}
               isAvailable={doctor.isActive}
             />

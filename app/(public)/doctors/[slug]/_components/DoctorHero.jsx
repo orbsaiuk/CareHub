@@ -49,12 +49,12 @@ export default function DoctorHero({ doctor }) {
                             </div>
                         </div>
 
-                        {/* Location / Hospital */}
-                        {doctor.hospitals && doctor.hospitals.length > 0 && (
+                        {/* Location / Facility */}
+                        {doctor.facilities && doctor.facilities.length > 0 && (
                             <div className="w-fit flex items-start gap-1.5 text-sm text-blue-500 bg-blue-50 p-2 rounded-md mb-4">
                                 <FaMapMarkerAlt className="w-3 h-3 mt-0.5 text-blue-500 shrink-0" />
                                 <span className="leading-tight">
-                                    {doctor.hospitals[0].hospital.name}
+                                    {doctor.facilities[0].facility.name}
                                 </span>
                             </div>
                         )}

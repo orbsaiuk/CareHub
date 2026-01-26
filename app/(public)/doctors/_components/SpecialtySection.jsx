@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DoctorCard } from "@/components/cards/DoctorCard";
 
@@ -27,9 +28,13 @@ export function SpecialtySection({ specialty }) {
                         <p className="text-sm text-gray-500">الأطباء المتاحون ({specialty.count})</p>
                     </div>
                 </div>
-                <Button variant="link" className="text-primary hover:text-primary/80 font-bold">
-                    عرض الكل
-                </Button>
+                {specialty.doctors.length > 3 && (
+                    <Link href={`/doctors?specialty=${encodeURIComponent(specialty.name)}`}>
+                        <Button variant="link" className="text-primary hover:text-primary/80 font-bold">
+                            عرض الكل
+                        </Button>
+                    </Link>
+                )}
             </div>
 
             {/* Doctors Grid */}
@@ -42,9 +47,8 @@ export function SpecialtySection({ specialty }) {
                         specialty={doctor.specialty}
                         rating={doctor.rating}
                         reviewsCount={doctor.reviewsCount}
-                        consultationFee={doctor.consultationFee}
                         experienceYears={doctor.experienceYears}
-                        hospitals={doctor.hospitals}
+                        facilities={doctor.facilities}
                         image={doctor.image}
                         isAvailable={doctor.isAvailable}
                     />

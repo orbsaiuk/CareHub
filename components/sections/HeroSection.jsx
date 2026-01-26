@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
@@ -5,13 +9,52 @@ import { Input } from "../ui/input";
 import { FaSearch, FaMapMarkerAlt, FaChevronDown } from "react-icons/fa";
 
 const quickSearchTags = [
-  { label: "طبيب أسنان", active: true },
-  { label: "طبيب عيون", active: false },
-  { label: "طبيب أطفال", active: false },
-  { label: "طبيب باطنة", active: false },
+  { label: "طب الاسنان" },
+  { label: "طب العيون" },
+  { label: "طب الأطفال" },
+  { label: "طب الباطنة" },
 ];
 
 export const HeroSection = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSpecialty, setSelectedSpecialty] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+
+  const activeTagIndex = useMemo(() => {
+    const specialty = selectedSpecialty.trim();
+    if (!specialty) return -1;
+    return quickSearchTags.findIndex((t) => t.label === specialty);
+  }, [selectedSpecialty]);
+
+  useEffect(() => {
+    setSearchTerm(searchParams.get("search") || "");
+    setSelectedSpecialty(searchParams.get("specialty") || "");
+    setSelectedCity(searchParams.get("city") || "");
+  }, [searchParams]);
+
+  const handleSearch = ({ term = searchTerm, specialty = selectedSpecialty } = {}) => {
+    const params = new URLSearchParams();
+
+    if (term && term.trim()) {
+      params.set("search", term.trim());
+    }
+
+    if (specialty && specialty.trim()) {
+      params.set("specialty", specialty.trim());
+    }
+
+    if (selectedCity && selectedCity.trim()) {
+      params.set("city", selectedCity.trim());
+    }
+
+    params.set("page", "1");
+
+    router.push(`/doctors?${params.toString()}`);
+  };
+
   return (
     <section className="relative w-full bg-primary/10 min-h-screen flex flex-col py-10">
 
@@ -42,6 +85,9 @@ export const HeroSection = () => {
                     <div className="flex-1 flex items-center gap-3 h-12 px-4 w-full">
                       <FaSearch className="w-5 h-5 text-gray-400" />
                       <Input
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && handleSearch()}
                         placeholder="ابحث عن تخصص أو طبيب..."
                         className="border-0 bg-transparent p-0 h-full text-lg placeholder:text-gray-400 focus-visible:ring-0"
                       />
@@ -53,13 +99,16 @@ export const HeroSection = () => {
                     <div className="flex items-center gap-3 h-12 px-4 w-full sm:w-auto min-w-[200px] cursor-pointer hover:bg-gray-100 rounded-xl transition-colors">
                       <FaMapMarkerAlt className="w-4 h-4 text-gray-400" />
                       <span className="flex-1 text-gray-500 text-lg text-right">
-                        الرياض
+                        {selectedCity || "الرياض"}
                       </span>
                       <FaChevronDown className="w-4 h-4 text-gray-400" />
                     </div>
                  </div>
 
-                <Button className="h-14 lg:h-auto px-10 bg-primary hover:bg-primary/90 rounded-2xl shadow-lg shadow-blue-500/20 transition-all font-medium text-xl text-white [font-family:'Tajawal',Helvetica]">
+                <Button
+                  onClick={() => handleSearch()}
+                  className="h-14 lg:h-auto px-10 bg-primary hover:bg-primary/90 rounded-2xl shadow-lg shadow-blue-500/20 transition-all font-medium text-xl text-white [font-family:'Tajawal',Helvetica]"
+                >
                   بحث
                 </Button>
               </div>
@@ -74,8 +123,12 @@ export const HeroSection = () => {
                     <Badge
                       key={index}
                       variant="secondary"
+                      onClick={() => {
+                        setSelectedSpecialty(tag.label);
+                        handleSearch({ specialty: tag.label });
+                      }}
                       className={`h-9 px-4 rounded-full cursor-pointer transition-all duration-300 border border-transparent ${
-                        tag.active
+                        index === activeTagIndex
                           ? "bg-primary text-white shadow-md shadow-blue-500/20 hover:bg-primary/90"
                           : "bg-blue-50 text-primary hover:bg-blue-100 hover:border-blue-200"
                       }`}

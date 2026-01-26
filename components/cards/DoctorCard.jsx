@@ -18,19 +18,18 @@ export function DoctorCard({
   rating = 0,
   reviewsCount = 0,
   experienceYears,
-  hospitals = [],
-  consultationFee,
+  facilities = [],
   image,
   isAvailable = true,
   className,
   ...props
 }) {
-  // Get primary hospital or first hospital with valid data
-  const primaryHospital = hospitals?.find(h => h.isPrimary && h.hospital)?.hospital ||
-    hospitals?.find(h => h.hospital)?.hospital;
+  // Get primary facility or first facility with valid data
+  const primaryFacility = facilities?.find(f => f.isPrimary && f.facility)?.facility ||
+    facilities?.find(f => f.facility)?.facility;
 
-  const hospitalName = primaryHospital?.name || "غير محدد";
-  const location = primaryHospital?.address || "";
+  const facilityName = primaryFacility?.name || "غير محدد";
+  const location = primaryFacility?.address || "";
 
   // Generate image URL from Sanity
   const imageUrl = image ? urlFor(image).width(400).height(400).url() : "/image-----------------3.png";
@@ -83,25 +82,17 @@ export function DoctorCard({
               )}
             </div>
 
-            {/* Location / Hospital */}
-            {(hospitalName !== "غير محدد" || location) && (
+            {/* Location / Facility */}
+            {(facilityName !== "غير محدد" || location) && (
               <div className="flex items-start gap-1.5 text-sm text-muted-foreground bg-gray-50 p-2 rounded-md border border-gray-100">
                 <FaMapMarkerAlt className="w-3 h-3 mt-0.5 text-gray-400 shrink-0" />
                 <span className="leading-tight">
-                  {hospitalName}
+                  {facilityName}
                 </span>
               </div>
             )}
           </div>
         </div>
-
-        {/* Price Section */}
-        {consultationFee && (
-          <div className="mt-4 flex items-center justify-center gap-1 border-t border-dashed pt-3 px-2">
-            <span className="text-muted-foreground">سعر الكشف:</span>
-            <span className="font-bold text-blue-600 text-lg">{consultationFee} ريال</span>
-          </div>
-        )}
       </CardContent>
 
       <CardFooter className="p-4 pt-0 gap-3 grid grid-cols-2">

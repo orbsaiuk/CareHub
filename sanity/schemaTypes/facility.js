@@ -1,6 +1,6 @@
 export default {
-    name: 'hospital',
-    title: 'المستشفيات والعيادات',
+    name: 'facility',
+    title: 'المنشآت (المستشفيات والعيادات)',
     type: 'document',
     fields: [
         {
@@ -25,11 +25,8 @@ export default {
             type: 'string',
             options: {
                 list: [
-                    { title: 'مستشفى عام', value: 'general_hospital' },
-                    { title: 'مستشفى تخصصي', value: 'specialized_hospital' },
+                    { title: 'مستشفى', value: 'hospital' },
                     { title: 'عيادة', value: 'clinic' },
-                    { title: 'مركز طبي', value: 'medical_center' },
-                    { title: 'مركز تشخيصي', value: 'diagnostic_center' },
                 ],
             },
             validation: (Rule) => Rule.required(),
@@ -256,11 +253,9 @@ export default {
         },
         prepare({ title, type, media, isActive }) {
             const typeLabels = {
-                general_hospital: 'مستشفى عام',
-                specialized_hospital: 'مستشفى تخصصي',
+                hospital: 'مستشفى',
                 clinic: 'عيادة',
                 medical_center: 'مركز طبي',
-                diagnostic_center: 'مركز تشخيصي',
             };
             return {
                 title,

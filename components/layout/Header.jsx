@@ -11,7 +11,7 @@ const navigationItems = [
   { label: "الرئيسية", href: "/" },
   { label: "التخصصات", href: "/specialties" },
   { label: "الأطباء", href: "/doctors" },
-  { label: "المستشفيات", href: "/hospitals" },
+  { label: "المنشآت الطبية", href: "/facilities" },
 ];
 
 export const Header = () => {
@@ -19,7 +19,7 @@ export const Header = () => {
 
   return (
     <header className="w-full bg-white/80 backdrop-blur-sm border-b border-light-gray-200 sticky top-0 z-50 shadow-sm/50">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container">
         <nav className="flex h-20 items-center justify-between" dir="rtl">
           {/* Logo area could be added here if needed, pushing nav to center or left */}
 

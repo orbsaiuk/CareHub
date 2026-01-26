@@ -89,7 +89,7 @@ export default function PublicLoading() {
                 </div>
             </section>
 
-            {/* Featured Hospitals Section - white background */}
+            {/* Featured Facilities Section - white background */}
             <section className="w-full py-20 bg-white">
                 <div className="container mx-auto px-4 max-w-7xl">
                     <div className="flex flex-col items-center gap-4 mb-16">

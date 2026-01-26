@@ -16,7 +16,7 @@ export const appointmentFields = groq`
     phone,
     email
   },
-  "hospital": hospital->{
+  "facility": facility->{
     _id,
     name,
     "slug": slug.current,
@@ -62,9 +62,9 @@ export const getDoctorAppointmentsQuery = groq`
   }
 `;
 
-// Get appointments by hospital
-export const getHospitalAppointmentsQuery = groq`
-  *[_type == "appointment" && hospital._ref == $hospitalId] | order(appointmentDate desc) [$start...$end] {
+// Get appointments by facility
+export const getFacilityAppointmentsQuery = groq`
+  *[_type == "appointment" && facility._ref == $facilityId] | order(appointmentDate desc) [$start...$end] {
     ${appointmentFields}
   }
 `;
@@ -104,7 +104,7 @@ export const getAppointmentsByDateRangeQuery = groq`
     && appointmentDate >= $startDate 
     && appointmentDate <= $endDate
     && ($doctorId == null || doctor._ref == $doctorId)
-    && ($hospitalId == null || hospital._ref == $hospitalId)
+    && ($facilityId == null || facility._ref == $facilityId)
   ] | order(appointmentDate asc) {
     ${appointmentFields}
   }
@@ -132,14 +132,14 @@ export const getDoctorAppointmentStatsQuery = groq`
   }
 `;
 
-// Get appointment statistics for hospital
-export const getHospitalAppointmentStatsQuery = groq`
+// Get appointment statistics for facility
+export const getFacilityAppointmentStatsQuery = groq`
   {
-    "total": count(*[_type == "appointment" && hospital._ref == $hospitalId]),
-    "completed": count(*[_type == "appointment" && hospital._ref == $hospitalId && status == "completed"]),
-    "cancelled": count(*[_type == "appointment" && hospital._ref == $hospitalId && status == "cancelled"]),
-    "upcoming": count(*[_type == "appointment" && hospital._ref == $hospitalId && appointmentDate > now() && status in ["pending", "confirmed"]]),
-    "totalRevenue": math::sum(*[_type == "appointment" && hospital._ref == $hospitalId && paymentStatus == "paid"].fee)
+    "total": count(*[_type == "appointment" && facility._ref == $facilityId]),
+    "completed": count(*[_type == "appointment" && facility._ref == $facilityId && status == "completed"]),
+    "cancelled": count(*[_type == "appointment" && facility._ref == $facilityId && status == "cancelled"]),
+    "upcoming": count(*[_type == "appointment" && facility._ref == $facilityId && appointmentDate > now() && status in ["pending", "confirmed"]]),
+    "totalRevenue": math::sum(*[_type == "appointment" && facility._ref == $facilityId && paymentStatus == "paid"].fee)
   }
 `;
 

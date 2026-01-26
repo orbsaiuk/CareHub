@@ -53,10 +53,9 @@ export const getSpecialtyBySlugQuery = groq`
       "slug": slug.current,
       image,
       experienceYears,
-      consultationFee,
       rating,
       reviewsCount,
-      "primaryHospital": hospitals[isPrimary == true][0].hospital->{
+      "primaryFacility": facilities[isPrimary == true][0].facility->{
         name,
         "address": address.city
       }
@@ -71,8 +70,7 @@ export const getSpecialtyStatsQuery = groq`
     name,
     "slug": slug.current,
     "doctorCount": count(*[_type == "doctor" && isActive == true && specialty._ref == ^._id]),
-    "hospitalCount": count(*[_type == "hospital" && isActive == true && ^._id in specialties[]._ref]),
-    "avgConsultationFee": math::avg(*[_type == "doctor" && isActive == true && specialty._ref == ^._id].consultationFee)
+    "facilityCount": count(*[_type == "facility" && isActive == true && ^._id in specialties[]._ref]),
   }
 `;
 

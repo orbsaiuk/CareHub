@@ -9,7 +9,7 @@ import { cn } from "../../lib/utils";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 
-export function HospitalCard({
+export function FacilityCard({
   slug,
   name,
   rating = 0,
@@ -62,7 +62,7 @@ export function HospitalCard({
       </CardContent>
 
       <CardFooter className="p-4 pt-0 gap-3">
-        <Link href={`/hospitals/${slug}`} className="flex-1">
+        <Link href={`/facilities/${slug}`} className="flex-1">
           <Button className="w-full bg-blue-500 hover:bg-blue-600 shadow-blue-100 shadow-lg">
             عرض التفاصيل
           </Button>

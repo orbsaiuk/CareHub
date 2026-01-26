@@ -10,7 +10,7 @@ export const structure = (S) =>
             .title('Health Management')
             .items([
               S.documentTypeListItem('doctor').title('Doctors'),
-              S.documentTypeListItem('hospital').title('Hospitals'),
+              S.documentTypeListItem('facility').title('Facilities'),
               S.documentTypeListItem('specialty').title('Specialties'),
               S.documentTypeListItem('appointment').title('Appointments'),
             ])

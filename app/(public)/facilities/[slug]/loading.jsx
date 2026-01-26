@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function HospitalDetailLoading() {
+export default function FacilityDetailLoading() {
     return (
         <div className="bg-gray-50/50 min-h-screen" dir="rtl">
             {/* Hero Section Skeleton - gradient overlay on image */}

@@ -19,8 +19,8 @@ export const doctorFields = groq`
   image,
   experienceYears,
   qualifications,
-  "hospitals": hospitals[]{
-    "hospital": hospital->{
+  "facilities": facilities[]{
+    "facility": facility->{
       _id,
       name,
       "slug": slug.current,
@@ -31,8 +31,6 @@ export const doctorFields = groq`
     },
     isPrimary
   },
-  consultationFee,
-  followUpFee,
   availability,
   rating,
   reviewsCount,
@@ -92,9 +90,9 @@ export const getDoctorsBySpecialtyQuery = groq`
   }
 `;
 
-// Get doctors by hospital
-export const getDoctorsByHospitalQuery = groq`
-  *[_type == "doctor" && isActive == true && $hospitalId in hospitals[].hospital._ref] | order(isFeatured desc, rating desc) [$start...$end] {
+// Get doctors by facility
+export const getDoctorsByFacilityQuery = groq`
+  *[_type == "doctor" && isActive == true && $facilityId in facilities[].facility._ref] | order(isFeatured desc, rating desc) [$start...$end] {
     ${doctorFields}
   }
 `;
@@ -121,10 +119,28 @@ export const getTopRatedDoctorsQuery = groq`
 export const getFilteredDoctorsQuery = groq`
   *[_type == "doctor" && isActive == true
     ${`&& ($specialtyId == null || specialty._ref == $specialtyId)`}
-    ${`&& ($hospitalId == null || $hospitalId in hospitals[].hospital._ref)`}
-    ${`&& ($minFee == null || consultationFee >= $minFee)`}
-    ${`&& ($maxFee == null || consultationFee <= $maxFee)`}
+    ${`&& ($facilityId == null || $facilityId in facilities[].facility._ref)`}
   ] | order(isFeatured desc, rating desc, _createdAt desc) [$start...$end] {
     ${doctorFields}
   }
+`;
+
+// Search doctors with multiple filters (search term, specialty, city)
+export const searchDoctorsWithFiltersQuery = groq`
+  *[_type == "doctor" && isActive == true
+    && ($searchTerm == "" || name match "*" + $searchTerm + "*" || bio match "*" + $searchTerm + "*" || specialty->name match "*" + $searchTerm + "*")
+    && ($specialtyName == "" || specialty->name match $specialtyName)
+    && ($city == "" || $city in facilities[].facility->address.city)
+  ] | order(isFeatured desc, rating desc, _createdAt desc) [$start...$end] {
+    ${doctorFields}
+  }
+`;
+
+// Count doctors with multiple filters
+export const searchDoctorsWithFiltersCountQuery = groq`
+  count(*[_type == "doctor" && isActive == true
+    && ($searchTerm == "" || name match "*" + $searchTerm + "*" || bio match "*" + $searchTerm + "*" || specialty->name match "*" + $searchTerm + "*")
+    && ($specialtyName == "" || specialty->name match $specialtyName)
+    && ($city == "" || $city in facilities[].facility->address.city)
+  ])
 `;

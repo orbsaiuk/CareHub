@@ -38,10 +38,10 @@ export default {
             validation: (Rule) => Rule.required(),
         },
         {
-            name: 'hospital',
-            title: 'المستشفى/العيادة',
+            name: 'facility',
+            title: 'المنشأة (المستشفى/العيادة)',
             type: 'reference',
-            to: [{ type: 'hospital' }],
+            to: [{ type: 'facility' }],
             validation: (Rule) => Rule.required(),
         },
         {

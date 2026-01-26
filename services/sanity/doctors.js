@@ -1,4 +1,4 @@
-import { client } from '@/sanity/lib/serverClient';
+import { writeClient as client } from '@/sanity/lib/serverClient';
 import {
     getDoctorsQuery,
     getDoctorsCountQuery,
@@ -6,11 +6,48 @@ import {
     getDoctorByClerkIdQuery,
     getFeaturedDoctorsQuery,
     getDoctorsBySpecialtyQuery,
-    getDoctorsByHospitalQuery,
+    getDoctorsByFacilityQuery,
     searchDoctorsQuery,
     getTopRatedDoctorsQuery,
     getFilteredDoctorsQuery,
+    searchDoctorsWithFiltersQuery,
+    searchDoctorsWithFiltersCountQuery,
 } from '@/sanity/queries/doctors';
+
+/**
+ * Search doctors with multiple filters
+ */
+export async function searchDoctorsWithFilters(filters = {}, page = 1, limit = 12) {
+    const start = (page - 1) * limit;
+    const end = start + limit;
+
+    const params = {
+        searchTerm: filters.searchTerm || "",
+        specialtyName: filters.specialtyName || filters.specialtySlug || filters.specialtyId || "", // Support all variants
+        city: filters.city || "",
+        start,
+        end,
+    };
+
+    try {
+        const [doctors, total] = await Promise.all([
+            client.fetch(searchDoctorsWithFiltersQuery, params),
+            client.fetch(searchDoctorsWithFiltersCountQuery, params),
+        ]);
+
+        return {
+            doctors,
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+        };
+    } catch (error) {
+        console.error('Error searching doctors with filters:', error);
+        return { doctors: [], total: 0, page, limit, totalPages: 0 };
+    }
+}
+
 
 /**
  * Get all doctors with pagination
@@ -90,16 +127,16 @@ export async function getDoctorsBySpecialty(specialtyId, page = 1, limit = 12) {
 }
 
 /**
- * Get doctors by hospital
+ * Get doctors by facility
  */
-export async function getDoctorsByHospital(hospitalId, page = 1, limit = 12) {
+export async function getDoctorsByFacility(facilityId, page = 1, limit = 12) {
     const start = (page - 1) * limit;
     const end = start + limit;
 
     try {
-        return await client.fetch(getDoctorsByHospitalQuery, { hospitalId, start, end });
+        return await client.fetch(getDoctorsByFacilityQuery, { facilityId, start, end });
     } catch (error) {
-        console.error('Error fetching doctors by hospital:', error);
+        console.error('Error fetching doctors by facility:', error);
         return [];
     }
 }
@@ -137,7 +174,7 @@ export async function getFilteredDoctors(filters = {}, page = 1, limit = 12) {
 
     const params = {
         specialtyId: filters.specialtyId || null,
-        hospitalId: filters.hospitalId || null,
+        facilityId: filters.facilityId || null,
         minFee: filters.minFee || null,
         maxFee: filters.maxFee || null,
         start,

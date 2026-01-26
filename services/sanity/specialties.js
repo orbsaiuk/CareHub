@@ -1,4 +1,4 @@
-import { client } from '@/sanity/lib/serverClient';
+import { writeClient as client } from '@/sanity/lib/serverClient';
 import {
     getSpecialtiesQuery,
     getFeaturedSpecialtiesQuery,
@@ -30,6 +30,15 @@ export async function getSpecialtyBySlug(slug) {
         return await client.fetch(getSpecialtyBySlugQuery, { slug });
     } catch (error) {
         console.error('Error fetching specialty by slug:', error);
+        return null;
+    }
+}
+
+export async function getSpecialtyById(id) {
+    try {
+        return await client.fetch(`*[_type == "specialty" && _id == $id][0]`, { id });
+    } catch (error) {
+        console.error('Error fetching specialty by id:', error);
         return null;
     }
 }

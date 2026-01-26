@@ -88,54 +88,42 @@ export default {
             ],
         },
         {
-            name: 'hospitals',
-            title: 'المستشفيات/العيادات',
+            name: 'facilities',
+            title: 'المنشآت (المستشفيات/العيادات)',
             type: 'array',
             of: [
                 {
                     type: 'object',
-                    name: 'hospitalAssignment',
+                    name: 'facilityAssignment',
                     fields: [
                         {
-                            name: 'hospital',
-                            title: 'المستشفى',
+                            name: 'facility',
+                            title: 'المنشأة',
                             type: 'reference',
-                            to: [{ type: 'hospital' }],
+                            to: [{ type: 'facility' }],
                             validation: (Rule) => Rule.required(),
                         },
                         {
                             name: 'isPrimary',
-                            title: 'المستشفى الرئيسي',
+                            title: 'المنشأة الرئيسية',
                             type: 'boolean',
                             initialValue: false,
                         },
                     ],
                     preview: {
                         select: {
-                            hospitalName: 'hospital.name',
+                            facilityName: 'facility.name',
                             isPrimary: 'isPrimary',
                         },
-                        prepare({ hospitalName, isPrimary }) {
+                        prepare({ facilityName, isPrimary }) {
                             return {
-                                title: hospitalName || 'لم يتم اختيار مستشفى',
-                                subtitle: isPrimary ? '⭐ المستشفى الرئيسي' : 'مستشفى إضافي',
+                                title: facilityName || 'لم يتم اختيار منشأة',
+                                subtitle: isPrimary ? '⭐ المنشأة الرئيسية' : 'منشأة إضافية',
                             };
                         },
                     },
                 },
             ],
-        },
-        {
-            name: 'consultationFee',
-            title: 'سعر الكشف',
-            type: 'number',
-            validation: (Rule) => Rule.min(0),
-        },
-        {
-            name: 'followUpFee',
-            title: 'سعر المتابعة',
-            type: 'number',
-            validation: (Rule) => Rule.min(0),
         },
         {
             name: 'availability',
@@ -165,10 +153,10 @@ export default {
                         { name: 'startTime', title: 'وقت البداية', type: 'string' },
                         { name: 'endTime', title: 'وقت النهاية', type: 'string' },
                         {
-                            name: 'hospital',
-                            title: 'المستشفى',
+                            name: 'facility',
+                            title: 'المنشأة',
                             type: 'reference',
-                            to: [{ type: 'hospital' }],
+                            to: [{ type: 'facility' }],
                         },
                     ],
                     preview: {
@@ -176,9 +164,9 @@ export default {
                             day: 'day',
                             startTime: 'startTime',
                             endTime: 'endTime',
-                            hospitalName: 'hospital.name',
+                            facilityName: 'facility.name',
                         },
-                        prepare({ day, startTime, endTime, hospitalName }) {
+                        prepare({ day, startTime, endTime, facilityName }) {
                             const dayLabels = {
                                 sunday: 'الأحد',
                                 monday: 'الإثنين',
@@ -190,7 +178,7 @@ export default {
                             };
                             return {
                                 title: `${dayLabels[day] || day}: ${startTime || ''} - ${endTime || ''}`,
-                                subtitle: hospitalName || 'لم يتم تحديد المستشفى',
+                                subtitle: facilityName || 'لم يتم تحديد المنشأة',
                             };
                         },
                     },

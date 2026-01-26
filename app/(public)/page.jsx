@@ -1,7 +1,7 @@
 import { HeroSection } from "@/components/sections/HeroSection";
 import { SpecialtiesSection } from "@/components/sections/SpecialtiesSection";
 import { FeaturedDoctorsSection } from "@/components/sections/FeaturedDoctorsSection";
-import { FeaturedHospitalsSection } from "@/components/sections/FeaturedHospitalsSection";
+import { FeaturedFacilitiesSection } from "@/components/sections/FeaturedFacilitiesSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { NewsletterSection } from "@/components/sections/NewsletterSection";
 import { CallToActionSection } from "@/components/sections/CallToActionSection";
@@ -16,7 +16,7 @@ export default async function Home() {
             <SpecialtiesSection />
             <FeaturesOverviewSection />
             <FeaturedDoctorsSection />
-            <FeaturedHospitalsSection />
+            <FeaturedFacilitiesSection />
             <TestimonialsSection />
             <NewsletterSection />
             <CallToActionSection />

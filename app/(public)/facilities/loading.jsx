@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
-export default function HospitalsLoading() {
+export default function FacilitiesLoading() {
     return (
         <div className="min-h-screen bg-gray-50/50" dir="rtl">
             {/* Hero Section Skeleton - matches primary/10 background */}

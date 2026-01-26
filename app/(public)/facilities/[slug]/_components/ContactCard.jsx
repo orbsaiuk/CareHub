@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FaPhone, FaMapMarkerAlt } from "react-icons/fa";
 
-export function ContactCard({ hospital }) {
+export function ContactCard({ facility }) {
     return (
         <Card className="border-1 shadow-md border-r-4 border-r-primary">
             <CardContent className="p-6">
@@ -12,48 +12,48 @@ export function ContactCard({ hospital }) {
 
                 <div className="space-y-4 mb-6">
                     {/* Phone */}
-                    {hospital.phone && (
+                    {facility.phone && (
                         <div className="flex items-start gap-3">
                             <FaPhone className="w-4 h-4 text-primary mt-1" />
                             <div className="flex-1">
                                 <p className="text-sm text-gray-500 mb-1">رقم الهاتف</p>
                                 <a
-                                    href={`tel:${hospital.phone}`}
+                                    href={`tel:${facility.phone}`}
                                     className="text-gray-900 font-medium hover:text-primary transition-colors"
                                 >
-                                    {hospital.phone}
+                                    {facility.phone}
                                 </a>
                             </div>
                         </div>
                     )}
 
                     {/* Emergency Phone */}
-                    {hospital.emergencyPhone && (
+                    {facility.emergencyPhone && (
                         <div className="flex items-start gap-3">
                             <FaPhone className="w-4 h-4 text-red-500 mt-1" />
                             <div className="flex-1">
                                 <p className="text-sm text-gray-500 mb-1">رقم الطوارئ</p>
                                 <a
-                                    href={`tel:${hospital.emergencyPhone}`}
+                                    href={`tel:${facility.emergencyPhone}`}
                                     className="text-gray-900 font-medium hover:text-red-500 transition-colors"
                                 >
-                                    {hospital.emergencyPhone}
+                                    {facility.emergencyPhone}
                                 </a>
                             </div>
                         </div>
                     )}
 
                     {/* Address */}
-                    {hospital.address && (
+                    {facility.address && (
                         <div className="flex items-start gap-3">
                             <FaMapMarkerAlt className="w-4 h-4 text-primary mt-1" />
                             <div className="flex-1">
                                 <p className="text-sm text-gray-500 mb-1">العنوان</p>
                                 <p className="text-gray-900 font-medium">
                                     {[
-                                        hospital.address.street,
-                                        hospital.address.district,
-                                        hospital.address.city
+                                        facility.address.street,
+                                        facility.address.district,
+                                        facility.address.city
                                     ].filter(Boolean).join('، ')}
                                 </p>
                             </div>

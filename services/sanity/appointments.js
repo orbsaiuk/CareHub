@@ -2,14 +2,14 @@ import { client } from '@/sanity/lib/serverClient';
 import {
     getPatientAppointmentsQuery,
     getDoctorAppointmentsQuery,
-    getHospitalAppointmentsQuery,
+    getFacilityAppointmentsQuery,
     getAppointmentByIdQuery,
     getUpcomingPatientAppointmentsQuery,
     getUpcomingDoctorAppointmentsQuery,
     getAppointmentsByDateRangeQuery,
     getAppointmentsByStatusQuery,
     getDoctorAppointmentStatsQuery,
-    getHospitalAppointmentStatsQuery,
+    getFacilityAppointmentStatsQuery,
     checkDoctorAvailabilityQuery,
 } from '@/sanity/queries/appointments';
 
@@ -37,14 +37,14 @@ export async function getDoctorAppointments(doctorId, page = 1, limit = 10) {
     }
 }
 
-export async function getHospitalAppointments(hospitalId, page = 1, limit = 10) {
+export async function getFacilityAppointments(facilityId, page = 1, limit = 10) {
     const start = (page - 1) * limit;
     const end = start + limit;
 
     try {
-        return await client.fetch(getHospitalAppointmentsQuery, { hospitalId, start, end });
+        return await client.fetch(getFacilityAppointmentsQuery, { facilityId, start, end });
     } catch (error) {
-        console.error('Error fetching hospital appointments:', error);
+        console.error('Error fetching facility appointments:', error);
         return [];
     }
 }
@@ -76,13 +76,13 @@ export async function getUpcomingDoctorAppointments(doctorId, limit = 10) {
     }
 }
 
-export async function getAppointmentsByDateRange(startDate, endDate, doctorId = null, hospitalId = null) {
+export async function getAppointmentsByDateRange(startDate, endDate, doctorId = null, facilityId = null) {
     try {
         return await client.fetch(getAppointmentsByDateRangeQuery, {
             startDate,
             endDate,
             doctorId,
-            hospitalId,
+            facilityId,
         });
     } catch (error) {
         console.error('Error fetching appointments by date range:', error);
@@ -117,11 +117,11 @@ export async function getDoctorAppointmentStats(doctorId) {
     }
 }
 
-export async function getHospitalAppointmentStats(hospitalId) {
+export async function getFacilityAppointmentStats(facilityId) {
     try {
-        return await client.fetch(getHospitalAppointmentStatsQuery, { hospitalId });
+        return await client.fetch(getFacilityAppointmentStatsQuery, { facilityId });
     } catch (error) {
-        console.error('Error fetching hospital appointment stats:', error);
+        console.error('Error fetching facility appointment stats:', error);
         return null;
     }
 }
