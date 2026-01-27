@@ -147,7 +147,7 @@ export default function CookieConsent() {
               /* Minimized State - Floating Button */
               <motion.button
                 onClick={() => setIsMinimized(false)}
-                className="cursor-pointer flex items-center gap-3 bg-primary text-white p-3 rounded-full shadow-2xl shadow-black/30 hover:bg-[#5a7550] transition-all duration-300 mx-auto md:mx-0 border border-white/10"
+                className="cursor-pointer flex items-center gap-3 bg-primary text-white p-3 rounded-full shadow-2xl shadow-black/30 hover:bg-[#00B8DB] transition-all duration-300 mx-auto md:mx-0 border border-white/10"
                 whileHover={{ scale: 1.05, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.4)" }}
                 whileTap={{ scale: 0.98 }}
                 title="إعدادات ملفات تعريف الارتباط"
@@ -160,20 +160,20 @@ export default function CookieConsent() {
               /* Full Premium Banner */
               <div className="bg-gradient-to-br from-[#1a1a1a] via-[#252525] to-[#1f1f1f] rounded-t-3xl md:rounded-2xl shadow-2xl shadow-black/50 overflow-hidden border border-white/10">
                 {/* Decorative gradient glow */}
-                <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#7c967b]/20 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#4c6342]/20 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#188BFF]/20 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#00B8DB]/20 rounded-full blur-3xl pointer-events-none" />
 
                 {/* Header */}
                 <div className="relative px-6 py-6 border-b border-white/10">
                   <div className="flex items-start gap-4">
                     {/* Cookie Icon with glow */}
                     <motion.div
-                      className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-[#7c967b] to-[#4c6342] rounded-2xl flex items-center justify-center shadow-lg shadow-[#7c967b]/30"
+                      className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-[#188BFF] to-[#00B8DB] rounded-2xl flex items-center justify-center shadow-lg shadow-[#188BFF]/30"
                       animate={{
                         boxShadow: [
-                          "0 10px 40px -10px rgba(124, 150, 123, 0.3)",
-                          "0 10px 40px -10px rgba(124, 150, 123, 0.5)",
-                          "0 10px 40px -10px rgba(124, 150, 123, 0.3)"
+                          "0 10px 40px -10px rgba(24, 139, 255, 0.3)",
+                          "0 10px 40px -10px rgba(24, 139, 255, 0.5)",
+                          "0 10px 40px -10px rgba(24, 139, 255, 0.3)"
                         ]
                       }}
                       transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
@@ -219,7 +219,7 @@ export default function CookieConsent() {
                               initial={{ opacity: 0, x: 20 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: index * 0.08 }}
-                              className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#7c967b]/50 hover:bg-white/[0.07] transition-all duration-300 group"
+                              className="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-[#188BFF]/50 hover:bg-white/[0.07] transition-all duration-300 group"
                             >
                               <div className="flex items-start justify-between gap-3">
                                 <div className="flex items-start gap-3 flex-1">
@@ -230,7 +230,7 @@ export default function CookieConsent() {
                                         {category.title}
                                       </h4>
                                       {category.required && (
-                                        <span className="px-2 py-0.5 bg-[#7c967b]/20 text-[#a8c4a7] text-xs rounded-full font-medium border border-[#7c967b]/30">
+                                        <span className="px-2 py-0.5 bg-[#188BFF]/20 text-[#A6D8FF] text-xs rounded-full font-medium border border-[#188BFF]/30">
                                           مطلوب
                                         </span>
                                       )}
@@ -246,9 +246,9 @@ export default function CookieConsent() {
                                   onClick={() => togglePreference(category.key)}
                                   disabled={category.required}
                                   className={`relative flex-shrink-0 w-12 h-7 rounded-full transition-all duration-300 ${preferences[category.key]
-                                    ? "bg-gradient-to-r from-[#7c967b] to-[#5a7550]"
+                                    ? "bg-gradient-to-r from-[#188BFF] to-[#00B8DB]"
                                     : "bg-white/10"
-                                    } ${category.required ? "opacity-60 cursor-not-allowed" : "cursor-pointer hover:ring-2 hover:ring-[#7c967b]/50"}`}
+                                    } ${category.required ? "opacity-60 cursor-not-allowed" : "cursor-pointer hover:ring-2 hover:ring-[#188BFF]/50"}`}
                                 >
                                   <motion.div
                                     className="absolute top-1 w-5 h-5 bg-white rounded-full shadow-lg flex items-center justify-center"
@@ -258,7 +258,7 @@ export default function CookieConsent() {
                                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                   >
                                     {preferences[category.key] && (
-                                      <Check className="w-3 h-3 text-[#4c6342]" />
+                                      <Check className="w-3 h-3 text-[#188BFF]" />
                                     )}
                                   </motion.div>
                                 </button>
@@ -278,7 +278,7 @@ export default function CookieConsent() {
                     <div className="flex gap-3">
                       <Button
                         onClick={handleAcceptAll}
-                        className="cursor-pointer flex-1 bg-gradient-to-r from-[#7c967b] to-[#5a7550] hover:from-[#8aa889] hover:to-[#6a8560] text-white font-medium py-6 rounded-xl shadow-lg shadow-[#7c967b]/25 hover:shadow-xl hover:shadow-[#7c967b]/40 transition-all duration-300 border-0"
+                        className="cursor-pointer flex-1 bg-gradient-to-r from-[#188BFF] to-[#00B8DB] hover:from-[#3399FF] hover:to-[#00CCF0] text-white font-medium py-6 rounded-xl shadow-lg shadow-[#188BFF]/25 hover:shadow-xl hover:shadow-[#188BFF]/40 transition-all duration-300 border-0"
                       >
                         <Check className="w-4 h-4 ml-2" />
                         قبول الكل
@@ -313,7 +313,7 @@ export default function CookieConsent() {
                           >
                             <Button
                               onClick={handleSavePreferences}
-                              className="cursor-pointer bg-white/10 hover:bg-[#7c967b]/30 text-white border border-[#7c967b]/50 hover:border-[#7c967b] font-medium px-5 py-2.5 rounded-xl transition-all duration-300"
+                              className="cursor-pointer bg-white/10 hover:bg-[#188BFF]/30 text-white border border-[#188BFF]/50 hover:border-[#188BFF] font-medium px-5 py-2.5 rounded-xl transition-all duration-300"
                             >
                               حفظ التفضيلات
                             </Button>
@@ -327,7 +327,7 @@ export default function CookieConsent() {
                   <div className="flex items-center justify-center gap-4 mt-5 pt-4 border-t border-white/10">
                     <Link
                       href="/privacy"
-                      className="cursor-pointer flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#7c967b] transition-colors group"
+                      className="cursor-pointer flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#188BFF] transition-colors group"
                     >
                       <Shield className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                       سياسة الخصوصية
@@ -335,7 +335,7 @@ export default function CookieConsent() {
                     <span className="text-white/20">|</span>
                     <Link
                       href="/cookies"
-                      className="cursor-pointer flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#7c967b] transition-colors group"
+                      className="cursor-pointer flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#188BFF] transition-colors group"
                     >
                       <Cookie className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                       سياسة الكوكيز
@@ -343,7 +343,7 @@ export default function CookieConsent() {
                     <span className="text-white/20">|</span>
                     <Link
                       href="/terms"
-                      className="cursor-pointer flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#7c967b] transition-colors group"
+                      className="cursor-pointer flex items-center gap-1.5 text-xs text-gray-500 hover:text-[#188BFF] transition-colors group"
                     >
                       <ExternalLink className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" />
                       الشروط والأحكام
