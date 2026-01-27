@@ -205,11 +205,13 @@ export default async function FacilitiesPage({ searchParams }) {
                         <FeatureSteps steps={FACILITY_STEPS} />
 
                         {/* Featured Facilities */}
-                        <FacilitiesSection
-                            title="المنشآت المميزة"
-                            facilities={data.featuredFacilities}
-                            link="/facilities"
-                        />
+                        {data.featuredFacilities.length > 0 && (
+                            <FacilitiesSection
+                                title="المستشفيات "
+                                facilities={data.featuredFacilities}
+                                link="/facilities?type=مستشفى"
+                            />
+                        )}
 
                         {/* Banner 1 */}
                         {data.banners?.[0] && (
@@ -221,11 +223,13 @@ export default async function FacilitiesPage({ searchParams }) {
                         )}
 
                         {/* Clinics */}
-                        <FacilitiesSection
-                            title="العيادات"
-                            facilities={data.clinics}
-                            link="/facilities?type=عيادة"
-                        />
+                        {data.clinics.length > 0 && (
+                            <FacilitiesSection
+                                title="العيادات"
+                                facilities={data.clinics}
+                                link="/facilities?type=عيادة"
+                            />
+                        )}
                     </div>
                 )}
             </main>
