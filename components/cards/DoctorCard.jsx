@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaStar, FaMapMarkerAlt, FaRegCalendarAlt } from "react-icons/fa";
+import { FaStar, FaMapMarkerAlt, FaStethoscope } from "react-icons/fa";
 import { PiSuitcaseSimple } from "react-icons/pi";
 import { LuFileText } from "react-icons/lu";
 import { urlFor } from "@/sanity/lib/image";
@@ -97,8 +97,8 @@ export function DoctorCard({
 
       <CardFooter className="p-4 pt-0 gap-3 grid grid-cols-2">
         <Button className="w-full bg-blue-500 hover:bg-blue-600 text-white text-sm shadow-blue-100 shadow-lg">
-          <FaRegCalendarAlt className="w-4 h-4" />
-          احجز موعد
+          <FaStethoscope className="w-4 h-4" />
+          ابدأ الاستشاره
         </Button>
         <Link href={`/doctors/${slug}`} className="w-full">
           <Button variant="outline" className="w-full text-sm font-normal border-gray-200 text-gray-600 hover:text-blue-600 hover:border-blue-200 hover:bg-blue-50">

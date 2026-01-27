@@ -1,6 +1,7 @@
 export const structure = (S) =>
   S.list()
     .title('Content')
+
     .items([
       // Health Section
       S.listItem()
@@ -18,6 +19,8 @@ export const structure = (S) =>
 
       S.divider(),
       S.documentTypeListItem('promotionalBanner').title('Promotional Banners'),
+      S.divider(),
+      S.documentTypeListItem('user').title('Users'),
         
 
     ]);

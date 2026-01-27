@@ -71,7 +71,7 @@ export default async function DoctorDetailPage({ params }) {
                     {/* Right Column - Sticky Booking Card */}
                     <div className="lg:col-span-1">
                         <div className="sticky top-20">
-                            <BookingCard />
+                            <BookingCard doctor={doctor} />
                         </div>
                     </div>
                 </div>

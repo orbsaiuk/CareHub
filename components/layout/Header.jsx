@@ -12,6 +12,7 @@ const navigationItems = [
   { label: "التخصصات", href: "/specialties" },
   { label: "الأطباء", href: "/doctors" },
   { label: "المنشآت الطبية", href: "/facilities" },
+  { label: "المحادثات", href: "/messaging" },
 ];
 
 export const Header = () => {

@@ -4,6 +4,7 @@ import facility from "./facility";
 import specialty from "./specialty";
 import appointment from "./appointment";
 import promotionalBanner from "./promotionalBanner";
+import user from "./user";
 
 export const schema = {
   types: [
@@ -13,5 +14,6 @@ export const schema = {
     specialty,
     appointment,
     promotionalBanner,
+    user,
   ],
 };

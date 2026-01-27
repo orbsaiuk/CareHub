@@ -36,6 +36,7 @@ export const doctorFields = groq`
   reviewsCount,
   phone,
   email,
+  clerkUserId,
   isActive,
   isFeatured,
   order

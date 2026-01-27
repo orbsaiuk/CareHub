@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import { FaStar } from "react-icons/fa";
+import { FaStar, FaStethoscope } from "react-icons/fa";
 import { urlFor } from "@/sanity/lib/image";
 
 export function DoctorsSection({ doctors = [] }) {
@@ -70,8 +70,9 @@ export function DoctorsSection({ doctors = [] }) {
                                     )}
                                 </div>
 
-                                <Button size="sm" className="w-full bg-primary hover:bg-primary/80 text-sm">
-                                    احجز موعد
+                                <Button size="sm" className="w-full bg-primary hover:bg-primary/80 text-sm gap-2">
+                                    <FaStethoscope className="w-4 h-4" />
+                                    ابدأ الاستشاره
                                 </Button>
                             </div>
                         </div>

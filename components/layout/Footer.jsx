@@ -30,21 +30,21 @@ export const Footer = () => {
   ];
 
   const doctorsLinks = [
-    "انضم كطبيب",
-    "تسجيل عيادة",
-    "لوحة التحكم",
-    "الأسعار والباقات",
-    "الشروط والأحكام",
-    "سياسة الخصوصية",
+    { label: "انضم كطبيب", href: "/doctors/register" },
+    { label: "تسجيل عيادة", href: "/hospitals/register" },
+    { label: "لوحة التحكم", href: "/dashboard" },
+    { label: "الأسعار والباقات", href: "/pricing" },
+    { label: "الشروط والأحكام", href: "/terms" },
+    { label: "سياسة الخصوصية", href: "/privacy" },
   ];
 
   const quickLinks = [
-    "الرئيسية",
-    "التخصصات",
-    "الأطباء",
-    "المستشفيات",
-    "من نحن",
-    "الأسئلة الشائعة",
+    { label: "الرئيسية", href: "/" },
+    { label: "التخصصات", href: "/specialties" },
+    { label: "الأطباء", href: "/doctors" },
+    { label: "المستشفيات", href: "/hospitals" },
+    { label: "من نحن", href: "/about" },
+    { label: "الأسئلة الشائعة", href: "/faq" },
   ];
 
   const socialLinks = [
@@ -102,10 +102,10 @@ export const Footer = () => {
               {doctorsLinks.map((link, index) => (
                 <Link
                   key={index}
-                  href="#"
+                  href={link.href}
                   className="w-fit font-normal text-white text-base tracking-[0] leading-6 block text-right hover:text-white transition-colors"
                 >
-                  {link}
+                  {link.label}
                 </Link>
               ))}
             </div>
@@ -122,10 +122,10 @@ export const Footer = () => {
               {quickLinks.map((link, index) => (
                 <Link
                   key={index}
-                  href="#"
+                  href={link.href}
                   className="w-fit font-normal text-white text-base tracking-[0] leading-6 block text-right hover:text-white transition-colors"
                 >
-                  {link}
+                  {link.label}
                 </Link>
               ))}
             </div>
