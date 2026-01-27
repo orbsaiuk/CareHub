@@ -1,7 +1,7 @@
 
 import Link from "next/link";
 
-export function FacilityNoResults() {
+export function FacilitiesNoResults() {
     return (
         <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200">
             <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
